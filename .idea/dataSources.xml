@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="SNL_TEST@10.0.8.41" uuid="34d34a9f-8ed9-4f28-9860-20510a551cf0">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://10.0.8.41:5000/SNL_TEST</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="db.sqlite3" read-only="true" uuid="ba31f1ba-59a0-422e-adf1-3dc830994540">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\dntuy\PycharmProjects\DATN\db.sqlite3</jdbc-url>
+    </data-source>
+  </component>
+</project>

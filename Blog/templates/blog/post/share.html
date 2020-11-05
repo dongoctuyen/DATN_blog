@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Chia sẻ bài viết{% endblock %}
+
+{% block content %}
+    <main class="post blog-post col-lg-8">
+        <div class="container">
+            {% if sent %}
+                <h1 class="h2">E-mail được gửi thành công</h1>
+                <hr>
+                <p>
+                    "{{ post.title }}" đã được gửi tới {{ form.cleaned_data.to }}.
+                </p>
+            {% else %}
+                <h2 class="h2">Chia sẻ "{{ post.title }}" bằng e-mail</h2>
+                <hr>
+                <div class="post-thumbnail"><img src="http://localhost:8000{{ post.image.url }}" alt="..."
+                                                 class="img-fluid"></div>
+                <form action="." method="post">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            {{ form.name }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            {{ form.to }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            {{ form.comments }}
+                        </div>
+                    </div>
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary">Gửi e-mail</button>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

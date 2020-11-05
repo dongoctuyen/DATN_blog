@@ -1,0 +1,16 @@
+GET http://localhost:8000/search
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-10-30T100429-1.200.html
+
+###
+
+GET http://localhost:8000/search
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-10-30T100429.200.html
+
+###
+

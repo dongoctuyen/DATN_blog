@@ -1,0 +1,108 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+{% block content %}
+    <main class="post blog-post col-lg-8">
+        <div class="container">
+            <div class="post-single">
+                <div class="post-thumbnail"><img src="http://localhost:8000{{ post.image.url }}" alt="..."
+                                                 class="img-fluid"></div>
+                <div class="post-details">
+                    <h1>{{ post.title }}<a href="#"><i
+                            class="fa fa-bookmark-o"></i></a></h1>
+                    <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
+                                                                                                  class="author d-flex align-items-center flex-wrap">
+                        <div class="title"><span>{{ post.author }}</span></div>
+                    </a>
+                        <div class="d-flex align-items-center flex-wrap">
+                            <div class="date"><i class="icon-clock"></i> {{ post.publish }}</div>
+                            <div class="comments meta-last"><i class="icon-comment"></i>{{ post.comments.count }}</div>
+                        </div>
+                    </div>
+                    <div class="post-body">
+                        <p class="lead">{{ post.description }}</p>
+                        <h3>{{ post.head1 }}</h3>
+                        <p>{{ post.body1 }}</p>
+                        <p><img src="http://localhost:8000{{ post.image1.url }}" alt="..." class="img-fluid"></p>
+                        <h3>{{ post.head2 }}</h3>
+                        <p>{{ post.body2 }}</p>
+                        <p><img src="http://localhost:8000{{ post.image2.url }}" alt="..." class="img-fluid"></p>
+                        <h3>{{ post.head3 }}</h3>
+                        <p>{{ post.body3 }}</p>
+                    </div>
+                    {#                    <div class="post-tags"><a href="#" class="tag">#Business</a><a href="#" class="tag">#Tricks</a><a#}
+                    {#                            href="#" class="tag">#Financial</a><a href="#" class="tag">#Economy</a></div>#}
+                    <b><a href="{% url 'blog:post_share' post.id %}">
+                        Chia sẻ bài viết
+                    </a>
+                    </b>
+                    <hr>
+                    <h2 class="h4">Bài viết tương tự</h2>
+                    {% for post in similar_posts %}
+                        <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
+                            <a href="{{ post.get_absolute_url }}" class="prev-post text-left d-flex align-items-center">
+                                <div class="text"><strong class="text-primary">Xem tiếp</strong>
+                                    <h6>{{ post.title }}</h6>
+                                </div>
+                            </a>
+                        </div>
+                    {% empty %}
+                        <h3 class="h5">Không có bài nào tương tự</h3>
+                    {% endfor %}
+
+                    <div class="post-comments">
+                        <header>
+                            <h3 class="h6">Bình luận<span class="no-of-comments">({{ post.comments.count }})</span></h3>
+                        </header>
+                        {% for comment in comments %}
+                            <div class="comment">
+                                <div class="comment-header d-flex justify-content-between">
+                                    <div class="user d-flex align-items-center">
+                                        <div class="image"><img src="{% static '/img/user.svg' %}" alt="..."
+                                                                class="img-fluid rounded-circle"></div>
+                                        <div class="title"><strong>{{ comment.name }}</strong><span
+                                                class="date">{{ comment.created }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment-body">
+                                    <p>{{ comment.body|linebreaks }}</p>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>Hiện tại không có bình luận nào</p>
+                        {% endfor %}
+                        {% if new_comment %}
+                            <h2 class="h5">Bình luận của bạn đã được lưu lại.</h2>
+                        {% else %}
+                            <div class="add-comment">
+                                <header>
+                                    <h3 class="h6">Để lại bình luận</h3>
+                                </header>
+                                <form action="." class="commenting-form" method="post">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            {{ comment_form.name }}
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            {{ comment_form.email }}
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            {{ comment_form.body }}
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-secondary">Thêm bình luận</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

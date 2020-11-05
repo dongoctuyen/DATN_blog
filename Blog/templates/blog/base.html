@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load blog_tags %}
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    {% block css %}
+
+        <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+        <!-- Font Awesome CSS-->
+        <link rel="stylesheet" href=".{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+        <!-- Custom icon font-->
+        <link rel="stylesheet" href="{% static 'css/fontastic.css' %}">
+        <!-- Google fonts - Open Sans-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+        <!-- Fancybox-->
+        <link rel="stylesheet" href="{% static 'vendor/@fancyapps/fancybox/jquery.fancybox.min.css' %}">
+        <!-- theme stylesheet-->
+        <link rel="stylesheet" href="{% static 'css/style.default.css' %}" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="favicon.png">
+
+    {% endblock %}
+
+    <!-- Tweaks for older IEs--><!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+</head>
+<body>
+{% include 'blog/nav_bar.html' %}
+<div class="container">
+    {% if tag %}
+        <h2 class="h4 mt-3">Blog với tags "{{ tag.name }}"</h2>
+    {% endif %}
+    {% if query %}
+        <h2 class="h3 mt-3">Blog có tiêu đề chứa "{{ query }}"</h2>
+        <hr>
+        <h5>
+            {% with results.count as total_results %}
+                Tìm thấy {{ total_results }} kết quả
+            {% endwith %}
+        </h5>
+    {% endif %}
+    <div class="row">
+        <!-- Latest Posts -->
+        {% block content %}
+        {% endblock %}
+        <aside class="col-lg-4">
+            <!-- Widget [Search Bar Widget]-->
+            <div class="widget search">
+                <header>
+                    <h3 class="h5">Blog Khoa Học</h3>
+                    <p>Đây là Blog của Quỳnh. Tổng số bài viết tôi đã chia sẻ là {% total_posts %} bài viết.</p>
+                    <h3 class="h6">Tìm kiếm bài viết</h3>
+                </header>
+                <form action="{% url 'blog:post_search' %}" method="get" class="search-form">
+                    <div class="form-group">
+                        {{ search.query }}
+                        <button type="submit" class="submit"><i class="icon-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <!-- Widget [Latest Posts Widget]        -->
+            <div class="widget latest-posts">
+                <header>
+                    <h3 class="h6">Bài viết gần đây</h3>
+                </header>
+                <div class="blog-posts">
+                    {% show_latest_posts 3 %}
+                </div>
+            </div>
+            <!-- Widget [Categories Widget]-->
+            <div class="widget categories">
+                <header>
+                    <h3 class="h6">Bài viết được bình luận nhiều nhất</h3>
+                </header>
+                {% get_most_commented_posts as most_commented_posts %}
+                {% for post in most_commented_posts %}
+                    <div class="item d-flex justify-content-between"><a
+                            href="{{ post.get_absolute_url }}">{{ post.title }}</a><span>{{ post.comments.count }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- Widget [Tags Cloud Widget]-->
+            <div class="widget tags">
+                <header>
+                    <h3 class="h6">Tags</h3>
+                </header>
+                <ul class="list-inline">
+                    {% show_total_tags 5 %}
+                </ul>
+            </div>
+        </aside>
+    </div>
+</div>
+{% include 'blog/footer.html' %}
+{% block script %}
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/popper.js/umd/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery.cookie/jquery.cookie.js' %}"></script>
+    <script src="{% static 'vendor/@fancyapps/fancybox/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/front.js' %}"></script>
+{% endblock %}
+</body>
+</html>
